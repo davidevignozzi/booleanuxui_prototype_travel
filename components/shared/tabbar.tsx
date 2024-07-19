@@ -4,7 +4,7 @@ const Tabbar = () => {
   return (
     <>
       <nav className='fixed bottom-0 flex h-[80px] w-full border-t border-black bg-white'>
-        {/* home */}
+        {/* Home */}
         <div className='mt-3 flex size-full flex-col items-center gap-1'>
           <LuHome className='size-5' />
           <span className='text-xs font-medium tracking-[0.5px]'>
@@ -12,7 +12,7 @@ const Tabbar = () => {
           </span>
         </div>
 
-        {/* explore */}
+        {/* Esplora */}
         <div className='mt-3 flex size-full flex-col items-center gap-1'>
           <LuCompass className='size-5' />
           <span className='text-xs font-medium tracking-[0.5px]'>
@@ -20,15 +20,15 @@ const Tabbar = () => {
           </span>
         </div>
 
-        {/* plan */}
+        {/* Pianificati */}
         <div className='mt-3 flex size-full flex-col items-center gap-1'>
           <LuCalendar className='size-5' />
           <span className='text-xs font-medium tracking-[0.5px]'>
-            Pianifica
+            Pianificati
           </span>
         </div>
 
-        {/* travels */}
+        {/* Viaggi */}
         <div className='mt-3 flex size-full flex-col items-center gap-1'>
           <LuMapPin className='size-5' />
           <span className='text-xs font-medium tracking-[0.5px]'>
