@@ -22,6 +22,8 @@ export default function Home() {
             <span className='text-xl'>3</span>
           </div>
         </div>
+
+        <div id='section--content'></div>
       </main>
 
       <Tabbar />
