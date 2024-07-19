@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* shadcn/ui */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -66,4 +67,9 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* custom */
+.section-title {
+  @apply font-bold text-2xl tracking-[0.5px];
 }
