@@ -1,6 +1,5 @@
 import CardTravel from '@/components/shared/cardTravel';
-import Navbar from '@/components/shared/navbar';
-import Tabbar from '@/components/shared/tabbar';
+import { Button } from '@/components/ui/button';
 
 import { LuPlane, LuMapPin } from 'react-icons/lu';
 
@@ -28,9 +27,7 @@ const myTravels = [
 export default function Home() {
   return (
     <>
-      <Navbar />
-
-      <main className='mx-4 flex min-h-screen flex-col gap-4'>
+      <main className='mx-4 flex flex-col gap-4'>
         {/* section "i miei viaggi" */}
         <h1 className='section-title'>I miei viaggi</h1>
         <div className='flex w-full justify-end gap-2'>
@@ -56,9 +53,27 @@ export default function Home() {
             />
           ))}
         </div>
-      </main>
 
-      <Tabbar />
+        {/* section "In programma" */}
+        <h1 className='section-title'>In programma</h1>
+        <p className='text-center text-xl font-normal'>
+          Non ci sono viaggi in programma
+        </p>
+
+        {/* navigate to "Pianifica" */}
+        <Button
+          variant='outline'
+          className='border-black p-6 text-xl font-normal tracking-[0.5px]'
+        >
+          Pianifica un viaggio
+        </Button>
+
+        {/* section "Elementi salvati" */}
+        <h1 className='section-title'>In programma</h1>
+        <p className='text-center text-xl font-normal'>
+          Non ci sono elementi salvati
+        </p>
+      </main>
     </>
   );
 }
