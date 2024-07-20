@@ -111,6 +111,12 @@ const Page = () => {
   // add friend in travel
   const [usersOpen, setUsersOpen] = useState(false);
   const [alreadyExists, setAlreadyExists] = useState(false);
+  const [friendSearch, setFriendSearch] = useState('');
+
+  // filtered search
+  const filteredFriends = mockedFriends.filter((friend) =>
+    friend.username.toLowerCase().includes(friendSearch.toLowerCase())
+  );
 
   const addFriend = useCallback(
     (pic: string, username: string) => {
@@ -303,6 +309,7 @@ const Page = () => {
           type='text'
           placeholder='@'
           onFocus={() => setUsersOpen(true)}
+          onChange={(e) => setFriendSearch(e.currentTarget.value)}
         />
 
         {/* dropdown */}
@@ -314,7 +321,7 @@ const Page = () => {
                 onClick={() => setUsersOpen(false)}
               />
             </div>
-            {mockedFriends.map((friend, i) => (
+            {filteredFriends.map((friend, i) => (
               <div
                 key={i}
                 className='flex w-full cursor-pointer items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background'
