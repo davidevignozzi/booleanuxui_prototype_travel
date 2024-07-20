@@ -5,24 +5,69 @@ import { DatePickerWithRange } from '@/components/ui/datePickerRange';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-const page = () => {
+import { LuPencil } from 'react-icons/lu';
+
+import { useState } from 'react';
+
+const Page = () => {
+  /**
+   *states
+   */
+  // title
+  const [titleTravelConfirmed, isTitleTravelConfirmed] = useState(false);
+  const [travelTitle, setTravelTitle] = useState('');
+
+  /**
+   * Input validation
+   */
+  const confirmTitle = (e: any) => {
+    if (e.key === 'Enter') {
+      travelTitle === '' || isTitleTravelConfirmed(true);
+    }
+  };
+
   return (
     <main className='mx-4 flex flex-col gap-6'>
       {/* title */}
-      <div className='flex flex-col gap-2'>
-        <Label htmlFor='travel title'>Titolo del viaggio</Label>
-        <Input type='text' placeholder='Road trip' />
-      </div>
+      {titleTravelConfirmed ? (
+        <div className='flex flex-col gap-2'>
+          <div className='flex w-full items-center justify-between'>
+            <Label htmlFor='travel title'>Titolo del viaggio</Label>
+            <LuPencil
+              className='size-5 cursor-pointer text-[#94A3B8]'
+              onClick={() => isTitleTravelConfirmed(false)}
+            />
+          </div>
+          <h2 className='text-xl font-medium'>{travelTitle}</h2>
+        </div>
+      ) : (
+        <div className='flex flex-col gap-2'>
+          <Label htmlFor='travel title'>Titolo del viaggio</Label>
+          <Input
+            type='text'
+            placeholder='Road trip'
+            value={travelTitle}
+            onChange={(e) => {
+              setTravelTitle(e.currentTarget.value);
+            }}
+            onKeyUp={(e) => confirmTitle(e)}
+          />
+        </div>
+      )}
 
       {/* destinations */}
       <div className='flex flex-col gap-2'>
-        <Label htmlFor='destinations'>Destinazione</Label>
+        <Label htmlFor='destinations'>
+          Destinazione o percroso <span className='text-red-600'>*</span>
+        </Label>
         <Input type='text' placeholder='Cerca' />
       </div>
 
       {/* dates */}
       <div className='flex flex-col gap-2'>
-        <Label htmlFor='dates'>Date del viaggio</Label>
+        <Label htmlFor='dates'>
+          Date del viaggio <span className='text-red-600'>*</span>
+        </Label>
         <DatePickerWithRange />
       </div>
 
@@ -65,7 +110,11 @@ const page = () => {
         <Label htmlFor='booking'>Prenotazioni</Label>
         <Input id='booking' type='file' />
       </div>
+
+      <Button variant='outline' className='border-black'>
+        Conferma
+      </Button>
     </main>
   );
 };
-export default page;
+export default Page;
