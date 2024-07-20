@@ -10,14 +10,14 @@ import {
   DialogClose,
   DialogContent,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
+  DialogDescription
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 
 import { LuPencil, LuX, LuUser2 } from 'react-icons/lu';
 
-import { useRef, useState } from 'react';
-import { DialogDescription } from '@radix-ui/react-dialog';
+import { useCallback, useRef, useState, KeyboardEvent } from 'react';
 
 interface IAccount {
   pic: string;
@@ -63,11 +63,14 @@ const Page = () => {
   const [titleTravelConfirmed, isTitleTravelConfirmed] = useState(false);
   const [travelTitle, setTravelTitle] = useState('');
 
-  const confirmTitle = (e: any) => {
-    if (e.key === 'Enter') {
-      travelTitle === '' || isTitleTravelConfirmed(true);
-    }
-  };
+  const confirmTitle = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        travelTitle === '' || isTitleTravelConfirmed(true);
+      }
+    },
+    [travelTitle]
+  );
 
   /**
    * destination logic
@@ -80,19 +83,24 @@ const Page = () => {
   const [destination, setDestination] = useState('');
 
   // add destination
-  const confirmDestination = (e: any) => {
-    if (e.key === 'Enter') {
-      destination === '' ||
-        setDestinations([...destinations, destination]);
-
-      setDestination('');
-    }
-  };
+  const confirmDestination = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        destination === '' ||
+          setDestinations([...destinations, destination]);
+        setDestination('');
+      }
+    },
+    [destination, destinations]
+  );
 
   // remove destination
-  const removeDestination = (index: number) => {
-    setDestinations(destinations.filter((_, i) => index !== i));
-  };
+  const removeDestination = useCallback(
+    (index: number) => {
+      setDestinations(destinations.filter((_, i) => index !== i));
+    },
+    [destinations]
+  );
 
   /**
    * travel friends logic
@@ -104,25 +112,31 @@ const Page = () => {
   const [usersOpen, setUsersOpen] = useState(false);
   const [alreadyExists, setAlreadyExists] = useState(false);
 
-  const addFriend = (pic: string, username: string) => {
-    for (const index in selectedFriends) {
-      if (selectedFriends[index].username === username) {
-        setUsersOpen(false);
-        return;
+  const addFriend = useCallback(
+    (pic: string, username: string) => {
+      for (const index in selectedFriends) {
+        if (selectedFriends[index].username === username) {
+          setUsersOpen(false);
+          return;
+        }
       }
-    }
 
-    setAlreadyExists(false);
-    if (alreadyExists === false) {
-      setSelectedFriends([...selectedFriends, { pic, username }]);
-      setUsersOpen(false);
-    }
-  };
+      setAlreadyExists(false);
+      if (alreadyExists === false) {
+        setSelectedFriends([...selectedFriends, { pic, username }]);
+        setUsersOpen(false);
+      }
+    },
+    [selectedFriends, alreadyExists]
+  );
 
   // remove friend from travel
-  const removeFriend = (index: number) => {
-    setSelectedFriends(selectedFriends.filter((_, i) => index !== i));
-  };
+  const removeFriend = useCallback(
+    (index: number) => {
+      setSelectedFriends(selectedFriends.filter((_, i) => index !== i));
+    },
+    [selectedFriends]
+  );
 
   /**
    * to do list logic
@@ -134,25 +148,31 @@ const Page = () => {
   const [isInputTodoShown, setIsInputTodoShown] = useState(false);
 
   // show todo
-  const showEmptyTodo = () => {
+  const showEmptyTodo = useCallback(() => {
     setIsInputTodoShown(true);
-  };
+  }, []);
 
   // add to do
-  const addTodo = (e: any) => {
-    if (e.key === 'Enter') {
-      setTodoList([...todoList, lastTodo]);
-      setLastTodo('');
-      if (todoInputRef.current) {
-        todoInputRef.current.value = '';
+  const addTodo = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        setTodoList([...todoList, lastTodo]);
+        setLastTodo('');
+        if (todoInputRef.current) {
+          todoInputRef.current.value = '';
+        }
       }
-    }
-  };
+    },
+    [lastTodo, todoList]
+  );
 
   // remove to do
-  const removeTodo = (index: number) => {
-    setTodoList(todoList.filter((_, i) => index !== i));
-  };
+  const removeTodo = useCallback(
+    (index: number) => {
+      setTodoList(todoList.filter((_, i) => index !== i));
+    },
+    [todoList]
+  );
 
   /**
    *
@@ -162,14 +182,20 @@ const Page = () => {
   const [newNote, setNewNote] = useState('');
 
   // add notes
-  const addNote = (note: string) => {
-    setNotes([...notes, note]);
-  };
+  const addNote = useCallback(
+    (note: string) => {
+      setNotes([...notes, note]);
+    },
+    [notes]
+  );
 
   // remove notes
-  const removeNotes = (index: number) => {
-    setNotes(notes.filter((_, i) => index !== i));
-  };
+  const removeNotes = useCallback(
+    (index: number) => {
+      setNotes(notes.filter((_, i) => index !== i));
+    },
+    [notes]
+  );
 
   return (
     <main className='mx-4 flex flex-col gap-6'>
