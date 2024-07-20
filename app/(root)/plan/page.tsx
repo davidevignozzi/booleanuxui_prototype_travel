@@ -172,6 +172,14 @@ const Page = () => {
     [lastTodo, todoList]
   );
 
+  const addTodoFromButton = () => {
+    setTodoList([...todoList, lastTodo]);
+    setLastTodo('');
+    if (todoInputRef.current) {
+      todoInputRef.current.value = '';
+    }
+  };
+
   // remove to do
   const removeTodo = useCallback(
     (index: number) => {
@@ -375,7 +383,9 @@ const Page = () => {
         <Button
           variant='ghost'
           className='flex justify-end text-sm font-medium text-[#94A3B8]'
-          onClick={() => showEmptyTodo()}
+          onClick={() => {
+            !isInputTodoShown ? showEmptyTodo() : addTodoFromButton();
+          }}
         >
           + Aggiungi un task
         </Button>
