@@ -16,17 +16,12 @@ import { Textarea } from '@/components/ui/textarea';
 
 import { LuPencil, LuX, LuUser2 } from 'react-icons/lu';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { DialogDescription } from '@radix-ui/react-dialog';
 
 interface IAccount {
   pic: string;
   username: string;
-}
-
-interface ITodo {
-  todo: string;
-  done: boolean;
 }
 
 const mockedFriends: Array<IAccount> = [
@@ -133,13 +128,30 @@ const Page = () => {
    * to do list logic
    *
    */
-  const [todoList, setTodoList] = useState<ITodo[]>([]);
-  const [newTodo, setNewTodo] = useState('');
+  const todoInputRef = useRef<HTMLInputElement>(null);
+  const [todoList, setTodoList] = useState<String[]>([]);
+  const [lastTodo, setLastTodo] = useState('');
+  const [isInputTodoShown, setIsInputTodoShown] = useState(false);
 
-  const addTodo = (newTodo: string, done: boolean) => {
-    (todoList.length === 0 || newTodo !== '') &&
-      setTodoList([...todoList, { todo: newTodo, done }]);
-    setNewTodo('');
+  // show todo
+  const showEmptyTodo = () => {
+    setIsInputTodoShown(true);
+  };
+
+  // add to do
+  const addTodo = (e: any) => {
+    if (e.key === 'Enter') {
+      setTodoList([...todoList, lastTodo]);
+      setLastTodo('');
+      if (todoInputRef.current) {
+        todoInputRef.current.value = '';
+      }
+    }
+  };
+
+  // remove to do
+  const removeTodo = (index: number) => {
+    setTodoList(todoList.filter((_, i) => index !== i));
   };
 
   /**
@@ -298,23 +310,39 @@ const Page = () => {
       <div className='flex flex-col gap-2'>
         <Label htmlFor='to do'>Cose da fare</Label>
         {todoList.map((todo, i) => (
-          <div key={i} className='flex items-center gap-2'>
+          <div
+            key={i}
+            className='flex h-10 w-full items-center justify-between gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background'
+          >
             <Checkbox />
-            <Input
-              placeholder='To do'
-              className='border-none'
-              onChange={(e) => setNewTodo(e.currentTarget.value)}
-              onKeyUp={(e) => {
-                e.key === 'Enter' && addTodo(newTodo, false);
+            <div className='w-full'>{todo}</div>
+            <LuX
+              className='size-5 cursor-pointer text-[#94A3B8]'
+              onClick={() => {
+                removeTodo(i);
               }}
-              onBlur={() => {}}
             />
           </div>
         ))}
+
+        {isInputTodoShown && (
+          <div className='flex w-full items-center justify-between gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background'>
+            <Input
+              ref={todoInputRef}
+              placeholder='To do'
+              className='border-none'
+              onChange={(e) => setLastTodo(e.currentTarget.value)}
+              onKeyUp={(e) => {
+                addTodo(e);
+              }}
+            />
+          </div>
+        )}
+
         <Button
           variant='ghost'
           className='flex justify-end text-sm font-medium text-[#94A3B8]'
-          onClick={() => addTodo(newTodo, false)}
+          onClick={() => showEmptyTodo()}
         >
           + Aggiungi un task
         </Button>
