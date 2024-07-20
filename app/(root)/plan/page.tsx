@@ -149,8 +149,14 @@ const Page = () => {
   const [notes, setNotes] = useState<string[]>([]);
   const [newNote, setNewNote] = useState('');
 
+  // add notes
   const addNote = (note: string) => {
     setNotes([...notes, note]);
+  };
+
+  // remove notes
+  const removeNotes = (index: number) => {
+    setNotes(notes.filter((_, i) => index !== i));
   };
 
   return (
@@ -329,7 +335,7 @@ const Page = () => {
                   <LuX
                     className='size-5 cursor-pointer text-[#94A3B8]'
                     onClick={() => {
-                      setUsersOpen(false);
+                      removeNotes(i);
                     }}
                   />
                 </div>
