@@ -7,11 +7,17 @@ import { Label } from '@/components/ui/label';
 
 import { LuPencil, LuX, LuUser2 } from 'react-icons/lu';
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface IAccount {
   pic: string;
   username: string;
+}
+
+interface ITodo {
+  todo: string;
+  done: boolean;
 }
 
 const mockedFriends: Array<IAccount> = [
@@ -47,7 +53,8 @@ const mockedFriends: Array<IAccount> = [
 
 const Page = () => {
   /**
-   ** travel title logic
+   * travel title logic
+   *
    */
   const [titleTravelConfirmed, isTitleTravelConfirmed] = useState(false);
   const [travelTitle, setTravelTitle] = useState('');
@@ -60,6 +67,7 @@ const Page = () => {
 
   /**
    * destination logic
+   *
    */
   const destinationArray: Array<string> = [];
 
@@ -83,12 +91,12 @@ const Page = () => {
   };
 
   /**
-   * travel friends
+   * travel friends logic
+   *
    */
   const [selectedFriends, setSelectedFriends] = useState<IAccount[]>([]);
 
   // add friend in travel
-  const friendsDropdown = useRef(null);
   const [usersOpen, setUsersOpen] = useState(false);
   const [alreadyExists, setAlreadyExists] = useState(false);
 
@@ -110,6 +118,19 @@ const Page = () => {
   // remove friend from travel
   const removeFriend = (index: number) => {
     setSelectedFriends(selectedFriends.filter((_, i) => index !== i));
+  };
+
+  /**
+   * to do list logic
+   *
+   */
+  const [todoList, setTodoList] = useState<ITodo[]>([]);
+  const [newTodo, setNewTodo] = useState('');
+
+  const addTodo = (newTodo: string, done: boolean) => {
+    (todoList.length === 0 || newTodo !== '') &&
+      setTodoList([...todoList, { todo: newTodo, done }]);
+    setNewTodo('');
   };
 
   return (
@@ -222,10 +243,7 @@ const Page = () => {
 
         {/* dropdown */}
         {usersOpen && (
-          <div
-            ref={friendsDropdown}
-            className='absolute top-full my-4 flex w-full flex-col gap-2 rounded-md bg-white p-2 shadow'
-          >
+          <div className='absolute top-full my-4 flex w-full flex-col gap-2 rounded-md bg-white p-2 shadow'>
             <div className='flex w-full justify-end'>
               <LuX
                 className='size-5 cursor-pointer text-[#94A3B8]'
@@ -253,9 +271,24 @@ const Page = () => {
       {/* to do */}
       <div className='flex flex-col gap-2'>
         <Label htmlFor='to do'>Cose da fare</Label>
+        {todoList.map((todo, i) => (
+          <div key={i} className='flex items-center gap-2'>
+            <Checkbox />
+            <Input
+              placeholder='To do'
+              className='border-none'
+              onChange={(e) => setNewTodo(e.currentTarget.value)}
+              onKeyUp={(e) => {
+                e.key === 'Enter' && addTodo(newTodo, false);
+              }}
+              onBlur={() => {}}
+            />
+          </div>
+        ))}
         <Button
           variant='ghost'
           className='flex justify-end text-sm font-medium text-[#94A3B8]'
+          onClick={() => addTodo(newTodo, false)}
         >
           + Aggiungi un task
         </Button>
