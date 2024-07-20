@@ -1,5 +1,5 @@
 import CardTravel from '@/components/shared/cardTravel';
-import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 import { LuPlane, LuMapPin } from 'react-icons/lu';
 
@@ -61,12 +61,12 @@ export default function Home() {
         </p>
 
         {/* navigate to "Pianifica" */}
-        <Button
-          variant='outline'
-          className='border-black p-6 text-xl font-normal tracking-[0.5px]'
+        <Link
+          href='plan'
+          className='texthover:text-accent-foreground inline-flex w-full items-center justify-center whitespace-nowrap rounded-md border border-black bg-background py-4 text-xl font-normal tracking-[0.5px] ring-offset-background transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'
         >
           Pianifica un viaggio
-        </Button>
+        </Link>
 
         {/* section "Elementi salvati" */}
         <h1 className='section-title'>In programma</h1>
