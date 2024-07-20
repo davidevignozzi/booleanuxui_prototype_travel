@@ -7,7 +7,7 @@ const Navbar = () => {
       <div className='mt-24'></div>
 
       {/* navbar */}
-      <nav className='fixed top-0 flex w-full bg-white'>
+      <nav className='fixed top-0 z-50 flex w-full bg-white'>
         <div id='logo' className='m-4 flex h-full items-center bg-black'>
           <h1 className='p-2 text-4xl text-white'>LOGO</h1>
         </div>

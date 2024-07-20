@@ -5,9 +5,45 @@ import { DatePickerWithRange } from '@/components/ui/datePickerRange';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import { LuPencil, LuX } from 'react-icons/lu';
+import { LuPencil, LuX, LuUser2 } from 'react-icons/lu';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+
+interface IAccount {
+  pic: string;
+  username: string;
+}
+
+const mockedFriends: Array<IAccount> = [
+  {
+    pic: 'DV',
+    username: 'davidevignozzi'
+  },
+  {
+    pic: 'AP',
+    username: 'alessiapellicoro'
+  },
+  {
+    pic: 'DP',
+    username: 'donatopanico'
+  },
+  {
+    pic: 'VS',
+    username: 'valeriaspanu'
+  },
+  {
+    pic: 'MM',
+    username: 'monicamas'
+  },
+  {
+    pic: 'MF',
+    username: 'mikkofiore'
+  },
+  {
+    pic: 'GD',
+    username: 'ghebdeiana'
+  }
+];
 
 const Page = () => {
   /**
@@ -23,7 +59,7 @@ const Page = () => {
   };
 
   /**
-   ** destination logic
+   * destination logic
    */
   const destinationArray: Array<string> = [];
 
@@ -31,7 +67,7 @@ const Page = () => {
     useState<string[]>(destinationArray);
   const [destination, setDestination] = useState('');
 
-  // push destination
+  // add destination
   const confirmDestination = (e: any) => {
     if (e.key === 'Enter') {
       destination === '' ||
@@ -44,6 +80,36 @@ const Page = () => {
   // remove destination
   const removeDestination = (index: number) => {
     setDestinations(destinations.filter((_, i) => index !== i));
+  };
+
+  /**
+   * travel friends
+   */
+  const [selectedFriends, setSelectedFriends] = useState<IAccount[]>([]);
+
+  // add friend in travel
+  const friendsDropdown = useRef(null);
+  const [usersOpen, setUsersOpen] = useState(false);
+  const [alreadyExists, setAlreadyExists] = useState(false);
+
+  const addFriend = (pic: string, username: string) => {
+    for (const index in selectedFriends) {
+      if (selectedFriends[index].username === username) {
+        setUsersOpen(false);
+        return;
+      }
+    }
+
+    setAlreadyExists(false);
+    if (alreadyExists === false) {
+      setSelectedFriends([...selectedFriends, { pic, username }]);
+      setUsersOpen(false);
+    }
+  };
+
+  // remove friend from travel
+  const removeFriend = (index: number) => {
+    setSelectedFriends(selectedFriends.filter((_, i) => index !== i));
   };
 
   return (
@@ -116,9 +182,72 @@ const Page = () => {
       </div>
 
       {/* travel friends */}
-      <div className='flex flex-col gap-2'>
+      <div className='relative flex flex-col gap-4'>
         <Label htmlFor='travel friends'>Compagni di viaggio</Label>
-        <Input type='text' placeholder='@' />
+
+        {selectedFriends.length !== 0 && (
+          <div className='flex flex-col gap-4'>
+            <div className='flex flex-col gap-2'>
+              {selectedFriends.map((friend: IAccount, i) => (
+                <div
+                  key={i}
+                  className='flex w-full items-center justify-between  px-3 py-1 text-sm ring-offset-background'
+                >
+                  <div className='flex items-center gap-2'>
+                    <div className='rounded-full bg-slate-300 p-1.5'>
+                      {friend.pic}
+                    </div>
+                    {friend.username}
+                  </div>
+                  <LuX
+                    className='size-5 cursor-pointer text-[#94A3B8]'
+                    onClick={() => removeFriend(i)}
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div className='flex items-center gap-1 text-[#6A6A6A]'>
+              <LuUser2 className='size-5' />
+              <span>{selectedFriends.length}</span>
+            </div>
+          </div>
+        )}
+
+        <Input
+          type='text'
+          placeholder='@'
+          onFocus={() => setUsersOpen(true)}
+        />
+
+        {/* dropdown */}
+        {usersOpen && (
+          <div
+            ref={friendsDropdown}
+            className='absolute top-full my-4 flex w-full flex-col gap-2 rounded-md bg-white p-2 shadow'
+          >
+            <div className='flex w-full justify-end'>
+              <LuX
+                className='size-5 cursor-pointer text-[#94A3B8]'
+                onClick={() => setUsersOpen(false)}
+              />
+            </div>
+            {mockedFriends.map((friend, i) => (
+              <div
+                key={i}
+                className='flex w-full cursor-pointer items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background'
+                onClick={() => addFriend(friend.pic, friend.username)}
+              >
+                <div className='flex items-center gap-2'>
+                  <div className='rounded-full bg-slate-300 p-1.5'>
+                    {friend.pic}
+                  </div>
+                  @{friend.username}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* to do */}
