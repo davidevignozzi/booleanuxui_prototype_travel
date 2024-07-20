@@ -4,11 +4,20 @@ import { Button } from '@/components/ui/button';
 import { DatePickerWithRange } from '@/components/ui/datePickerRange';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
 
 import { LuPencil, LuX, LuUser2 } from 'react-icons/lu';
 
 import { useState } from 'react';
-import { Checkbox } from '@/components/ui/checkbox';
+import { DialogDescription } from '@radix-ui/react-dialog';
 
 interface IAccount {
   pic: string;
@@ -131,6 +140,17 @@ const Page = () => {
     (todoList.length === 0 || newTodo !== '') &&
       setTodoList([...todoList, { todo: newTodo, done }]);
     setNewTodo('');
+  };
+
+  /**
+   *
+   * notes logic
+   */
+  const [notes, setNotes] = useState<string[]>([]);
+  const [newNote, setNewNote] = useState('');
+
+  const addNote = (note: string) => {
+    setNotes([...notes, note]);
   };
 
   return (
@@ -297,12 +317,59 @@ const Page = () => {
       {/* notes */}
       <div className='flex flex-col gap-2'>
         <Label htmlFor='notes'>Note sul viaggio</Label>
-        <Button
-          variant='ghost'
-          className='flex justify-end text-sm font-medium text-[#94A3B8]'
-        >
-          + Aggiungi una nota
-        </Button>
+
+        <div id='notes' className='flex flex-col gap-2'>
+          {notes.map((note, i) => (
+            <div
+              key={i}
+              className='flex flex-col gap-4 rounded-md border border-[#DDDDDD] p-4'
+            >
+              <div className='flex flex-col'>
+                <div className='flex w-full justify-end'>
+                  <LuX
+                    className='size-5 cursor-pointer text-[#94A3B8]'
+                    onClick={() => {
+                      setUsersOpen(false);
+                    }}
+                  />
+                </div>
+
+                <div className='flex items-center gap-2'>
+                  <div className='flex size-8 items-center justify-center rounded-full bg-slate-300'>
+                    U
+                  </div>
+                  User
+                </div>
+              </div>
+              {note}
+            </div>
+          ))}
+        </div>
+
+        {/* write the note dialog */}
+        <Dialog>
+          <DialogTrigger className='mr-3 flex justify-end text-sm font-medium text-[#94A3B8]'>
+            + Aggiungi una nota
+          </DialogTrigger>
+          <DialogContent className='max-w-[300px]'>
+            <DialogTitle>Scrivi una nota sul viaggio</DialogTitle>
+            <Textarea
+              placeholder='Qualcosa sul tuo viaggio'
+              onChange={(e) => setNewNote(e.currentTarget.value)}
+            />
+            <DialogDescription />
+            <DialogClose asChild>
+              <Button
+                variant='outline'
+                className='w-full border-black font-medium tracking-[0.5px]'
+                type='submit'
+                onClick={() => addNote(newNote)}
+              >
+                Continua
+              </Button>
+            </DialogClose>
+          </DialogContent>
+        </Dialog>
       </div>
 
       {/* photos */}
