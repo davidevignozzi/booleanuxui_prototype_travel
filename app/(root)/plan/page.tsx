@@ -481,7 +481,11 @@ const Page = () => {
         <Input id='booking' type='file' />
       </div>
 
-      <Button variant='outline' className='border-black'>
+      <Button
+        id='complete-plan'
+        variant='outline'
+        className='border-black'
+      >
         Conferma
       </Button>
     </main>
