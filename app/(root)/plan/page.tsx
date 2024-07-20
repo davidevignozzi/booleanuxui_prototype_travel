@@ -5,25 +5,45 @@ import { DatePickerWithRange } from '@/components/ui/datePickerRange';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import { LuPencil } from 'react-icons/lu';
+import { LuPencil, LuX } from 'react-icons/lu';
 
 import { useState } from 'react';
 
 const Page = () => {
   /**
-   *states
+   ** travel title logic
    */
-  // title
   const [titleTravelConfirmed, isTitleTravelConfirmed] = useState(false);
   const [travelTitle, setTravelTitle] = useState('');
 
-  /**
-   * Input validation
-   */
   const confirmTitle = (e: any) => {
     if (e.key === 'Enter') {
       travelTitle === '' || isTitleTravelConfirmed(true);
     }
+  };
+
+  /**
+   ** destination logic
+   */
+  const destinationArray: Array<string> = [];
+
+  const [destinations, setDestinations] =
+    useState<string[]>(destinationArray);
+  const [destination, setDestination] = useState('');
+
+  // push destination
+  const confirmDestination = (e: any) => {
+    if (e.key === 'Enter') {
+      destination === '' ||
+        setDestinations([...destinations, destination]);
+
+      setDestination('');
+    }
+  };
+
+  // remove destination
+  const removeDestination = (index: number) => {
+    setDestinations(destinations.filter((_, i) => index !== i));
   };
 
   return (
@@ -60,7 +80,31 @@ const Page = () => {
         <Label htmlFor='destinations'>
           Destinazione o percroso <span className='text-red-600'>*</span>
         </Label>
-        <Input type='text' placeholder='Cerca' />
+        {destinations.length === 0 || (
+          <>
+            {destinations.map((destinationItem, i) => (
+              <div
+                key={i}
+                className='flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background'
+              >
+                <p>{destinationItem}</p>
+                <LuX
+                  className='size-5 text-[#94A3B8]'
+                  onClick={() => removeDestination(i)}
+                />
+              </div>
+            ))}
+          </>
+        )}
+        <Input
+          type='text'
+          placeholder='Cerca'
+          onChange={(e) => {
+            setDestination(e.currentTarget.value);
+          }}
+          onKeyUp={(e) => confirmDestination(e)}
+          value={destination}
+        />
       </div>
 
       {/* dates */}
