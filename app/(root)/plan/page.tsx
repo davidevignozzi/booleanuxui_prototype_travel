@@ -155,30 +155,36 @@ const Page = () => {
 
   // show todo
   const showEmptyTodo = useCallback(() => {
-    setIsInputTodoShown(true);
-  }, []);
+    if (!isInputTodoShown && lastTodo === '') {
+      setIsInputTodoShown(true);
+    }
+  }, [isInputTodoShown, lastTodo]);
 
   // add to do
   const addTodo = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'Enter') {
+      if (e.key === 'Enter' && lastTodo.trim() !== '') {
         setTodoList([...todoList, lastTodo]);
         setLastTodo('');
         if (todoInputRef.current) {
           todoInputRef.current.value = '';
         }
+        setIsInputTodoShown(false);
       }
     },
     [lastTodo, todoList]
   );
 
-  const addTodoFromButton = () => {
-    setTodoList([...todoList, lastTodo]);
-    setLastTodo('');
-    if (todoInputRef.current) {
-      todoInputRef.current.value = '';
+  const addTodoFromButton = useCallback(() => {
+    if (lastTodo.trim() !== '') {
+      setTodoList([...todoList, lastTodo]);
+      setLastTodo('');
+      if (todoInputRef.current) {
+        todoInputRef.current.value = '';
+      }
+      setIsInputTodoShown(false);
     }
-  };
+  }, [lastTodo, todoList]);
 
   // remove to do
   const removeTodo = useCallback(
