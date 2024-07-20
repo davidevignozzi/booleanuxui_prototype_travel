@@ -218,12 +218,14 @@ const Page = () => {
   );
 
   return (
-    <main className='mx-4 flex flex-col gap-6'>
+    <main className='mx-4 flex flex-col gap-8'>
       {/* title */}
       {titleTravelConfirmed ? (
         <div className='flex flex-col gap-2'>
           <div className='flex w-full items-center justify-between'>
-            <Label htmlFor='travel title'>Titolo del viaggio</Label>
+            <Label className='font-bold' htmlFor='travel title'>
+              Titolo del viaggio
+            </Label>
             <LuPencil
               className='size-5 cursor-pointer text-[#94A3B8]'
               onClick={() => isTitleTravelConfirmed(false)}
@@ -233,7 +235,9 @@ const Page = () => {
         </div>
       ) : (
         <div className='flex flex-col gap-2'>
-          <Label htmlFor='travel title'>Titolo del viaggio</Label>
+          <Label className='font-bold' htmlFor='travel title'>
+            Titolo del viaggio
+          </Label>
           <Input
             type='text'
             placeholder='Road trip'
@@ -248,7 +252,7 @@ const Page = () => {
 
       {/* destinations */}
       <div className='flex flex-col gap-2'>
-        <Label htmlFor='destinations'>
+        <Label className='font-bold' htmlFor='destinations'>
           Destinazione o percroso <span className='text-red-600'>*</span>
         </Label>
         {destinations.length === 0 || (
@@ -280,7 +284,7 @@ const Page = () => {
 
       {/* dates */}
       <div className='flex flex-col gap-2'>
-        <Label htmlFor='dates'>
+        <Label className='font-bold' htmlFor='dates'>
           Date del viaggio <span className='text-red-600'>*</span>
         </Label>
         <DatePickerWithRange />
@@ -288,7 +292,9 @@ const Page = () => {
 
       {/* travel friends */}
       <div className='relative flex flex-col gap-4'>
-        <Label htmlFor='travel friends'>Compagni di viaggio</Label>
+        <Label className='font-bold' htmlFor='travel friends'>
+          Compagni di viaggio
+        </Label>
 
         {selectedFriends.length !== 0 && (
           <div className='flex flex-col gap-4'>
@@ -355,7 +361,9 @@ const Page = () => {
 
       {/* to do */}
       <div className='flex flex-col gap-2'>
-        <Label htmlFor='to do'>Cose da fare</Label>
+        <Label className='font-bold' htmlFor='to do'>
+          Cose da fare
+        </Label>
         {todoList.map((todo, i) => (
           <div
             key={i}
@@ -399,7 +407,9 @@ const Page = () => {
 
       {/* notes */}
       <div className='flex flex-col gap-2'>
-        <Label htmlFor='notes'>Note sul viaggio</Label>
+        <Label className='font-bold' htmlFor='notes'>
+          Note sul viaggio
+        </Label>
 
         <div id='notes' className='flex flex-col gap-2'>
           {notes.map((note, i) => (
@@ -457,13 +467,17 @@ const Page = () => {
 
       {/* photos */}
       <div className='flex flex-col gap-2'>
-        <Label htmlFor='photos'>Foto</Label>
+        <Label className='font-bold' htmlFor='photos'>
+          Foto
+        </Label>
         <Input id='picture' type='file' />
       </div>
 
       {/* booking */}
       <div className='flex flex-col gap-2'>
-        <Label htmlFor='booking'>Prenotazioni</Label>
+        <Label className='font-bold' htmlFor='booking'>
+          Prenotazioni
+        </Label>
         <Input id='booking' type='file' />
       </div>
 
