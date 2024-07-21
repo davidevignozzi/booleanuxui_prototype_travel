@@ -14,6 +14,7 @@ import {
   DialogDescription
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
+import { FileUploadDropzone } from '@/components/ui/fileUploader';
 
 import { LuPencil, LuX, LuUser2 } from 'react-icons/lu';
 
@@ -470,7 +471,7 @@ const Page = () => {
         <Label className='font-bold' htmlFor='photos'>
           Foto
         </Label>
-        <Input id='picture' type='file' />
+        <FileUploadDropzone />
       </div>
 
       {/* booking */}
@@ -478,7 +479,7 @@ const Page = () => {
         <Label className='font-bold' htmlFor='booking'>
           Prenotazioni
         </Label>
-        <Input id='booking' type='file' />
+        <FileUploadDropzone />
       </div>
 
       <Button
@@ -491,4 +492,5 @@ const Page = () => {
     </main>
   );
 };
+
 export default Page;
