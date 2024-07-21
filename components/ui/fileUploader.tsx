@@ -376,21 +376,14 @@ export const FileUploadDropzone = () => {
 
   const dropzone = {
     accept: {
-      'image/*': [
-        '.jpg',
-        '.jpeg',
-        '.png',
-        '.heif',
-        '.hevc',
-        '.pdf',
-        'mov',
-        '.mp4',
-        '.mp3'
-      ]
+      'image/*': ['.jpg', '.jpeg', '.png', '.gif', '.heif', '.hevc'],
+      'application/pdf': ['.pdf'],
+      'video/*': ['.mov', '.mp4'],
+      'audio/*': ['.mp3']
     },
     multiple: true,
     maxFiles: 10,
-    maxSize: 1 * 1024 * 1024
+    maxSize: 1 * 4284 * 5712
   } satisfies DropzoneOptions;
 
   return (
